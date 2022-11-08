@@ -1,6 +1,10 @@
 import ipaddress
 
 def split_ip_mask(ip_with_mask):
+
+    # This function returns dictionary with network and mask keys
+    # from string in format 0.0.0.0/0
+
     return_dict = {
         "network":  str(ip_with_mask.split('/')[0]),
         "mask":     int(ip_with_mask.split('/')[1])
@@ -8,12 +12,18 @@ def split_ip_mask(ip_with_mask):
     return return_dict
 
 def generate_ip_network(network_with_mask_string = '10.20.30.0/24'):
+
+    # This function returns list of IP addresses from string in format 0.0.0.0/0
+
     ips = []
     for ip in ipaddress.IPv4Network(network_with_mask_string):
         ips.append(ip)
     return ips
 
 def validate_data(network, port_range_from, port_range_to):
+
+    # This function validates data provided by Click
+
     if network == None:
         raise Exception('--network param not provided!')
     try:
