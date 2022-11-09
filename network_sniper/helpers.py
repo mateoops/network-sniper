@@ -20,7 +20,7 @@ def generate_ip_network(network_with_mask_string = '10.20.30.0/24'):
         ips.append(ip)
     return ips
 
-def validate_data(network, port_range_from, port_range_to):
+def validate_data(network, range_ports):
 
     # This function validates data provided by Click
 
@@ -31,17 +31,17 @@ def validate_data(network, port_range_from, port_range_to):
     except:
         raise Exception('Incorrect --network param!')
     try:
-        int(port_range_from)
-        int(port_range_to)
+        port_range_from = int(range_ports.split('-')[0])
+        port_range_to = int(range_ports.split('-')[1])
     except:
-        raise Exception('Incorrect ports range params!')
+        raise Exception('Incorrect ports range param!')
     try:
         if int(port_range_from) > int(port_range_to):
-            raise Exception('Param --port_range_from should be lower or equal --port_range_to param!')
+            raise Exception('Incorrect ports range param!')
         if int(port_range_from) < 1 or int(port_range_from) > 65535:
-            raise Exception('Param port_range_from must be greater than 0 and lower than 65535')
+            raise Exception('Incorrect ports range param')
         if int(port_range_to) < 1 or int(port_range_to) > 65535:
-            raise Exception('Param port_range_to must be greater than 0 and lower than 65535')
+            raise Exception('Incorrect ports range param')
 
     except Exception as ex:
         raise ex
