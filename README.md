@@ -10,7 +10,7 @@ Options:
     --network           Network address with mask. Format: 0.0.0.0/0
     --port_range_from   Define range of ports to scan - from
     --port_range_to     Define range of ports to scan - to
-```
+
 ## Examples
 Scan range between 1 to 80 ports in network 192.168.10.0/24
 
