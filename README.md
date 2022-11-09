@@ -2,6 +2,8 @@
 
 Python network scanner tool, with additional network features.
 
+## Usage
+
 Usage:
     python network_sniper/main.py <networkAddressWithMask> --port_range_from <port> --port_range_to <port>
     python network_sniper/main.py --help
