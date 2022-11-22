@@ -20,7 +20,7 @@ def generate_ip_network(network_with_mask_string = '10.20.30.0/24'):
         ips.append(ip)
     return ips
 
-def validate_data_and_generate_ports_list(network, ports_range, ports_list):
+def validate_data_and_generate_ports_list(network, ports_range, ports_list, port):
 
     # This function validates data provided by Click
     # and returns list of ports
@@ -35,7 +35,7 @@ def validate_data_and_generate_ports_list(network, ports_range, ports_list):
         raise Exception('Incorrect --network param!')
     
     # Ports provided by ports_range
-    if ports_range != None and ports_list == None:
+    if ports_range != None and ports_list == None and port == None:
 
         try:
             port_range_from = int(ports_range.split('-')[0])
@@ -59,7 +59,7 @@ def validate_data_and_generate_ports_list(network, ports_range, ports_list):
         
 
     # Ports provided by ports_list
-    elif ports_range == None and ports_list != None:
+    elif ports_range == None and ports_list != None and port == None:
         try:
             list_of_ports_string = str(ports_list).split(',')
         except:
@@ -70,11 +70,23 @@ def validate_data_and_generate_ports_list(network, ports_range, ports_list):
             try:
                 for port in list_of_ports_string:
                     if int(port) < 1 or int(port) > 65535:
-                        raise Exception('Incorrect ports range param')
+                        raise Exception('Incorrect ports list param')
                     else:
                         list_of_ports.append(int(port))
                 return list_of_ports
             except:
-                raise Exception('Incorrect ports range param')
+                raise Exception('Incorrect ports list param')
+
+    # Port provided by single port param
+    elif ports_range == None and ports_list == None and port != None:
+        try:
+            if int(port) < 1 or int(port) > 65535:
+                raise Exception('Incorrect port param')
+            else:
+                return [int(port)]
+        except:
+            raise Exception('Incorrect port param')
+
+    # Else - exception
     else:
         raise Exception('Too many parameters! Choose only one type of input ports')

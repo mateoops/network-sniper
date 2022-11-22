@@ -6,17 +6,18 @@ import time
 
 @click.command()
 @click.option('--network',      help = 'Network address with mask eg. 192.168.1.0/24')
-@click.option('--ports_range',  help= 'Ports range to scan')
-@click.option('--ports_list',   help = 'Ports list to scan')
+@click.option('--ports_range',  help = 'Port numbers range to scan')
+@click.option('--ports_list',   help = 'Port numbers list to scan')
+@click.option('--port',         help = 'Single port number to scan')
 
-def scan_network(network, ports_range, ports_list):
+def scan_network(network, ports_range, ports_list, port):
 
     # This function is using for scan open ports in whole network
     # Params are provided by click
     # Result are printing to the console
 
     # validate parameters
-    list_of_ports = validate_data_and_generate_ports_list(network, ports_range, ports_list)
+    list_of_ports = validate_data_and_generate_ports_list(network, ports_range, ports_list, port)
 
     # list of scans - to run in threads
     scan_list = []
