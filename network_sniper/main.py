@@ -1,21 +1,22 @@
 import click
 from port_checker import port_checker
-from helpers import generate_ip_network, validate_data
+from helpers import generate_ip_network, validate_data_and_generate_ports_list
 import threading
 import time
 
 @click.command()
-@click.option('--network', help = 'Network address with mask eg. 192.168.1.0/24')
-@click.option('--range_ports', help= 'Ports range to scan')
+@click.option('--network',      help = 'Network address with mask eg. 192.168.1.0/24')
+@click.option('--ports_range',  help= 'Ports range to scan')
+@click.option('--ports_list',   help = 'Ports list to scan')
 
-def scan_network(network, range_ports):
+def scan_network(network, ports_range, ports_list):
 
     # This function is using for scan open ports in whole network
     # Params are provided by click
     # Result are printing to the console
 
     # validate parameters
-    validate_data(network, range_ports)
+    list_of_ports = validate_data_and_generate_ports_list(network, ports_range, ports_list)
 
     # list of scans - to run in threads
     scan_list = []
@@ -24,7 +25,7 @@ def scan_network(network, range_ports):
 
     # generate list of sockets to scan
     for ip in generate_ip_network(network):
-        for port in range(int(range_ports.split('-')[0]), int(range_ports.split('-')[1])):
+        for port in list_of_ports:
             scan_list.append(threading.Thread(target=port_checker, args=(format(ip), port)))
 
     # scan
